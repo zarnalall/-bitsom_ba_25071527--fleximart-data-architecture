@@ -1,2 +1,1 @@
-# Graded-Assignment-2
-BITSOM Graded Assignment-2
+# Data-Architecture-Design-and-Implementation
