@@ -1,4 +1,4 @@
-order_id,customer_id,product_id,quantity,Unit_price,order_date,status
+order_id,customer_id,product_id,quantity,unit_price,order_date,status
 O100,018,19,3,1499,20-02-24,Completed
 O101,020,9,5,650,26-02-24,Completed
 O102,015,7,1,52999,14-02-24,Completed

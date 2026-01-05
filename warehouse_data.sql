@@ -133,13 +133,37 @@ SET customer_segment = CASE customer_key
     WHEN 25 THEN 'Corporate'
 END;
 
--- Insert value into Sales Fact Table (fact_sales)
+-- Insert value into Sales Fact Table (fact_sales) with discount logic
 
-INSERT INTO fleximart_dw.fact_sales (date_key, product_key, customer_key, quantity_sold, unit_price, total_amount)
-SELECT a.order_date,b.product_id,a.customer_id, SUM(b.quantity) as quantity_sold, SUM(b.unit_price) as unit_price,
- SUM(a.total_amount) as total_amount
-FROM orders a LEFT JOIN order_items b ON a.order_id=b.order_id
-GROUP BY 1,2,3
+INSERT INTO fleximart_dw.fact_sales(date_key, product_key, customer_key, quantity_sold, unit_price, discount_amount, total_amount)
+SELECT date_key, product_key, customer_key, quantity_sold, unit_price, discount_amount,
+    (quantity_sold * unit_price) - discount_amount AS total_amount
+FROM (
+    SELECT d.date_key, p.product_key, c.customer_key,
+        SUM(od.quantity) AS quantity_sold,
+        od.unit_price,
 
+-- 0.5% discount only on weekends for Corporate customers
+        CASE
+            WHEN d.is_weekend = 1 AND c.customer_segment = 'Corporate'
+			THEN ROUND(SUM(od.quantity * od.unit_price) * 0.05, 2)
+            ELSE 0
+        END AS discount_amount
 
-SELECT * FROM fleximart_dw.fact_sales
+    FROM order_data od
+    JOIN fleximart_dw.dim_date d
+        ON d.full_date = od.order_date
+    JOIN fleximart_dw.dim_product p
+        ON p.product_id = od.product_id
+    JOIN fleximart_dw.dim_customer c
+        ON c.customer_id = od.customer_id
+
+    GROUP BY
+        d.date_key,
+        p.product_key,
+        c.customer_key,
+        od.unit_price,
+        d.is_weekend
+) x;
+
+SELECT * FROM fleximart_dw.fact_sales;
