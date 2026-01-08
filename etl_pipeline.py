@@ -81,15 +81,17 @@ def load_data(df: pd.DataFrame, output_path: str):
 def main():
     logging.info("ETL pipeline started")
 
-    input_file = "input_data.csv"
-    output_file = "processed_data.csv"
+input_file = "data/customers_raw.csv"
+output_file = "processed_data.csv"
 
-    df = extract_data(input_file)
-    df = transform_data(df)
-    load_data(df, output_file)
+df = extract_data(input_file)
+df = transform_data(df)
+load_data(df, output_file)
 
-    logging.info("ETL pipeline completed successfully")
+logging.info("ETL pipeline completed successfully")
 
 
 if __name__ == "__main__":
     main()
+
+
