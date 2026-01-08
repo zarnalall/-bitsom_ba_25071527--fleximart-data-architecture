@@ -1,9 +1,9 @@
 # FlexiMart Data Architecture Project
 
-**Student Name:** [RAJ SINGH CHAUHAN]
-**Student ID:** [bitsom_ba_25071378]
-**Email:** [raj.singh@msn.com]
-**Date:** [05-Jan-2025]
+**Student Name:** [Zarna lall]
+**Student ID:** [bitsom_ba_25071527]
+**Email:** [zarna@zarnalall.com]
+**Date:** [08-Jan-2025]
 
 ## Project Overview
 
