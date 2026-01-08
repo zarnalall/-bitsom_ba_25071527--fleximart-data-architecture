@@ -77,6 +77,17 @@ def load_data(df: pd.DataFrame, output_path: str):
 # -------------------------------------------------------------------
 # MAIN PIPELINE
 # -------------------------------------------------------------------
+# TRANSFORM
+def transform_data(df: pd.DataFrame) -> pd.DataFrame:
+    df = find_treat_missing_val(df)
+    df = remove_duplicates(df)
+    return df
+
+
+def load_data(df: pd.DataFrame, output_path: str):
+    logging.info("Loading data")
+    df.to_csv(output_path, index=False)
+
 
 def main():
     logging.info("ETL pipeline started")
@@ -86,6 +97,7 @@ output_file = "processed_data.csv"
 
 df = extract_data(input_file)
 df = transform_data(df)
+
 load_data(df, output_file)
 
 logging.info("ETL pipeline completed successfully")
